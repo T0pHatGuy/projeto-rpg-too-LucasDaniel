@@ -1,9 +1,12 @@
+from model.enums import StatusMissao
+
+
 class Missao:
-    def __init__(self, nome, descricao, recompensa):
+    def __init__(self, nome, descricao, recompensa, status):
         self.nome = nome
         self.descricao = descricao
         self.recompensa = recompensa
-        self.status = 'PENDENTE'
+        self.status = status
 
     @property
     def nome(self):
@@ -46,18 +49,27 @@ class Missao:
 
     @status.setter
     def status(self, valor):
-        if valor in ['PENDENTE', 'EM ANDAMENTO', 'CONCLUIDA']:
+        if valor in [StatusMissao.PENDENTE, StatusMissao.EM_ANDAMENTO, StatusMissao.CONCLUIDA]:
             self._status = valor
         else:
             raise ValueError("Status inválido. Use 'PENDENTE', 'EM ANDAMENTO' ou 'CONCLUIDA'.")
 
     def iniciar_missao(self):
-        if self.status == 'PENDENTE':
-            self.status = "EM ANDAMENTO"
+        if self.status == StatusMissao.PENDENTE:
+            self.status = StatusMissao.EM_ANDAMENTO
             return f"A missão {self.nome} começou! O objetivo é {self.descricao}."
         else:
             return f'A missão {self.nome} já foi iniciada!!!'
 
+    def concluir_missao(self):
+        if self.status == StatusMissao.EM_ANDAMENTO:
+            self.status = StatusMissao.CONCLUIDA
+            return f"A missão {self.nome} foi concluída! Você recebeu {self.recompensa} de recompensa."
+        elif self.status == StatusMissao.PENDENTE:
+            return f"A missão {self.nome} ainda não começou. Inicie a missão antes de concluí-la."
+        else:
+            return f"A missão {self.nome} já foi concluída."
+    
     def exibir_dados(self):
         msg = f'''
 [{self.__class__.__name__}]
