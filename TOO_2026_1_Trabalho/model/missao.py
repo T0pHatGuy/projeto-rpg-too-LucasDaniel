@@ -5,6 +5,52 @@ class Missao:
         self.recompensa = recompensa
         self.status = 'PENDENTE'
 
+    @property
+    def nome(self):
+        return self._nome
+
+
+    @property
+    def descricao(self):
+        return self._descricao
+
+
+    @property
+    def recompensa(self):
+        return self._recompensa
+
+    @property
+    def status(self):
+        return self._status
+
+    @nome.setter
+    def nome(self, valor):
+        if isinstance(valor, str) and valor.strip():
+            self._nome = valor
+        else:
+            raise ValueError("Nome inválido. Deve ser uma string não vazia.")
+
+    @descricao.setter
+    def descricao(self, valor):
+        if isinstance(valor, str) and valor.strip():
+            self._descricao = valor
+        else:
+            raise ValueError("Descrição inválida. Deve ser uma string não vazia.")
+
+    @recompensa.setter
+    def recompensa(self, valor):
+        if isinstance(valor, (int, float)) and valor >= 0:
+            self._recompensa = valor
+        else:
+            raise ValueError("Recompensa inválida. Deve ser um número não negativo.")
+
+    @status.setter
+    def status(self, valor):
+        if valor in ['PENDENTE', 'EM ANDAMENTO', 'CONCLUIDA']:
+            self._status = valor
+        else:
+            raise ValueError("Status inválido. Use 'PENDENTE', 'EM ANDAMENTO' ou 'CONCLUIDA'.")
+
     def iniciar_missao(self):
         if self.status == 'PENDENTE':
             self.status = "EM ANDAMENTO"
